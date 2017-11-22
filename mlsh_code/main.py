@@ -1,5 +1,8 @@
 import argparse
 import tensorflow as tf
+
+import IPython
+
 parser = argparse.ArgumentParser()
 parser.add_argument('savename', type=str)
 parser.add_argument('--task', type=str)
@@ -28,6 +31,13 @@ import sys
 import shutil
 import subprocess
 import master
+
+from gym.envs.registration import registry, register, make, spec
+register(
+     id='AntBandits-v1',
+     entry_point='gym.envs.mujoco:AntBanditsEnv',
+     max_episode_steps=1000,
+)
 
 def str2bool(v):
     if v.lower() in ('yes', 'true', 't', 'y', '1'):
@@ -88,6 +98,8 @@ def train():
     world_group = MPI.COMM_WORLD.Get_group()
     mygroup = rank % 10
     theta_group = world_group.Incl([x for x in range(MPI.COMM_WORLD.size) if (x % 10 == mygroup)])
+
+    # IPython.embed()
     comm = MPI.COMM_WORLD.Create(theta_group)
     comm.Barrier()
     # comm = MPI.COMM_WORLD

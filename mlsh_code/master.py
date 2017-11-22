@@ -1,5 +1,5 @@
 import gym
-import test_envs
+import envs.test_envs
 import tensorflow as tf
 import rollouts
 from policy_network import Policy
