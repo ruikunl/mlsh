@@ -33,10 +33,16 @@ import subprocess
 import master
 
 from gym.envs.registration import registry, register, make, spec
+# register(
+#      id='AntBandits-v1',
+#      entry_point='gym.envs.mujoco:AntBanditsEnv',
+#      max_episode_steps=1000,
+# )
+#
 register(
-     id='AntBandits-v1',
-     entry_point='gym.envs.mujoco:AntBanditsEnv',
-     max_episode_steps=1000,
+    id='MovementBandits-v0',
+    entry_point='gym.envs.test_envs:MovementBandits',
+    timestep_limit=50,
 )
 
 def str2bool(v):

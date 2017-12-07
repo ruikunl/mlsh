@@ -37,7 +37,7 @@ def start(callback, args, workerseed, rank, comm):
     sub_policies = [SubPolicy(name="sub_policy_%i" % x, ob=ob, ac_space=ac_space, hid_size=32, num_hid_layers=2) for x in range(num_subs)]
     old_sub_policies = [SubPolicy(name="old_sub_policy_%i" % x, ob=ob, ac_space=ac_space, hid_size=32, num_hid_layers=2) for x in range(num_subs)]
 
-    learner = Learner(env, policy, old_policy, sub_policies, old_sub_policies, comm, clip_param=0.2, entcoeff=0, optim_epochs=10, optim_stepsize=3e-5, optim_batchsize=64)
+    learner = Learner(env, policy, old_policy, sub_policies, old_sub_policies, comm, clip_param=0.2, entcoeff=0, optim_epochs=10, optim_stepsize=3e-4, optim_batchsize=64)
     rollout = rollouts.traj_segment_generator(policy, sub_policies, env, macro_duration, num_rollouts, stochastic=True, args=args)
 
 
@@ -77,5 +77,5 @@ def start(callback, args, workerseed, rank, comm):
             print(("%d: global: %s, local: %s" % (mini_ep, gmean, lmean)))
             if args.s:
                 totalmeans.append(gmean)
-                with open('outfile'+str(x)+'.pickle', 'wb') as fp:
+                with open('./MovementBandits_armstorm_nowarmup_10/outfile'+str(x)+'.pickle', 'wb') as fp:
                     pickle.dump(totalmeans, fp)
