@@ -39,10 +39,17 @@ from gym.envs.registration import registry, register, make, spec
 #      max_episode_steps=1000,
 # )
 #
+#register(
+#    id='MovementBandits-v0',
+#    entry_point='gym.envs.test_envs:MovementBandits',
+#    timestep_limit=50,
+#)
+
 register(
-    id='MovementBandits-v0',
-    entry_point='gym.envs.test_envs:MovementBandits',
-    timestep_limit=50,
+    id='Fourrooms-v0',
+    entry_point='gym.envs.test_envs:Fourrooms',
+    timestep_limit=100,
+    reward_threshold = 1.0,
 )
 
 def str2bool(v):
@@ -77,15 +84,18 @@ def callback(it):
             U.save_state(fname)
     if it == 0 and args.continue_iter is not None:
         fname = osp.join(""+args.savename+"/checkpoints/", str(args.continue_iter))
+        print(fname)
         U.load_state(fname)
-
+        
+        return int(args.continue_iter)
+    return it
         # fname = osp.join(""+args.savename+"/checkpoints/", args.continue_iter)
         # subvars = []
         # for i in range(args.num_subs-1):
         #     subvars += tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope="sub_policy_%i" % (i+1))
         # print([v.name for v in subvars])
         # U.load_state(fname, subvars)
-        pass
+       # pass
 
 def train():
     num_timesteps=1e9

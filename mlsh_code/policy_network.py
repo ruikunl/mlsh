@@ -20,7 +20,7 @@ class Policy(object):
             with tf.variable_scope("obfilter"):
                 self.ob_rms = RunningMeanStd(shape=(ob.get_shape()[1],))
             obz = tf.clip_by_value((ob - self.ob_rms.mean) / self.ob_rms.std, -5.0, 5.0)
-            # obz = ob
+           # obz = ob
 
             # value function
             last_out = obz
@@ -46,7 +46,7 @@ class Policy(object):
         self._act_forced = U.function([stochastic, ob, self.selector], [ac, self.vpred])
 
     def act(self, stochastic, ob):
-        ac1, vpred1 =  self._act(stochastic, ob[None])
+        ac1, vpred1 = self._act(stochastic,ob[None])
         return ac1[0], vpred1[0]
     def get_variables(self):
         return tf.get_collection(tf.GraphKeys.VARIABLES, self.scope)

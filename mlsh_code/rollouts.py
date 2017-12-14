@@ -27,8 +27,8 @@ def traj_segment_generator(pi, sub_policies, env, macrolen, horizon, stochastic,
     macro_acs = np.zeros(macro_horizon, 'int32')
     macro_vpreds = np.zeros(macro_horizon, 'float32')
 
+    
     ob = env.reset()
-
     x = 0
     z = 0
 
@@ -37,6 +37,7 @@ def traj_segment_generator(pi, sub_policies, env, macrolen, horizon, stochastic,
 
     while True:
         if t % macrolen == 0:
+
             cur_subpolicy, macro_vpred = pi.act(stochastic, ob)
 
             if np.random.uniform() < 0.1:

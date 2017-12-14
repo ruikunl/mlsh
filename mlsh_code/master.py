@@ -28,7 +28,7 @@ def start(callback, args, workerseed, rank, comm):
 
     # observation in.
     ob = U.get_placeholder(name="ob", dtype=tf.float32, shape=[None, ob_space.shape[0]])
-    # ob = U.get_placeholder(name="ob", dtype=tf.float32, shape=[None, 104])
+    #ob = U.get_placeholder(name="ob", dtype=tf.float32, shape=[None, 1])
 
     # features = Features(name="features", ob=ob)
     policy = Policy(name="policy", ob=ob, ac_space=ac_space, hid_size=32, num_hid_layers=2, num_subpolicies=num_subs)
@@ -40,14 +40,14 @@ def start(callback, args, workerseed, rank, comm):
     learner = Learner(env, policy, old_policy, sub_policies, old_sub_policies, comm, clip_param=0.2, entcoeff=0, optim_epochs=10, optim_stepsize=3e-4, optim_batchsize=64)
     rollout = rollouts.traj_segment_generator(policy, sub_policies, env, macro_duration, num_rollouts, stochastic=True, args=args)
 
-
-    for x in range(10000):
-        callback(x)
+    x = 0
+    while x<10000:
+   # for x in range(10000):
+        x = callback(x)
         if x == 0:
             learner.syncSubpolicies()
             print("synced subpols")
         # Run the inner meta-episode.
-
         policy.reset()
         learner.syncMasterPolicies()
 
@@ -77,5 +77,6 @@ def start(callback, args, workerseed, rank, comm):
             print(("%d: global: %s, local: %s" % (mini_ep, gmean, lmean)))
             if args.s:
                 totalmeans.append(gmean)
-                with open('./MovementBandits_armstorm_nowarmup_10/outfile'+str(x)+'.pickle', 'wb') as fp:
+                with open('./Fourrooms_google_20_mlsh/outfile'+str(x)+'.pickle', 'wb') as fp:
                     pickle.dump(totalmeans, fp)
+        x = x+1

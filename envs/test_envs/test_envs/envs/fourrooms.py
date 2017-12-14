@@ -57,7 +57,7 @@ wwwwwwwwwwwww
     def randomizeCorrect(self):
         # self.realgoal = np.random.choice([68, 69, 70, 71, 72, 78, 79, 80, 81, 82, 88, 89, 90, 91, 92, 93, 99, 100, 101, 102, 103])
         self.realgoal = np.random.choice([68, 80, 90, 103])
-        self.realgoal = 103
+        # self.realgoal = 103
         pass
 
     def _seed(self, seed=None):
@@ -76,11 +76,11 @@ wwwwwwwwwwwww
         state = 62
         self.currentcell = self.tocell[state]
 
-        # statevec = np.zeros(104)
-        # statevec[state] = 1
-        # return statevec
+        statevec = np.zeros(104)
+        statevec[state] = 1
+        return statevec
 
-        return state
+       # return np.array([state])
 
     def step(self, action):
         """
@@ -102,8 +102,8 @@ wwwwwwwwwwwww
         state = self.tostate[self.currentcell]
         done = state == self.realgoal
 
-        # statevec = np.zeros(104)
-        # statevec[state] = 1
-        # return statevec, float(done), False, None
+        statevec = np.zeros(104)
+        statevec[state] = 1
+        return statevec, float(done), False, None
 
-        return state, float(done), False, None
+       # return np.array([state]), float(done), False, None
